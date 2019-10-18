@@ -1,10 +1,10 @@
-import React, {useState} from 'react
-export const FormClass=( {classes, setClasses} ) => {
-    const initialClassFields={name: "", type: "", startTime: "", duration: "", level: "",location:"". registrants: ""}
+import React, {useState} from 'react'
+export const FormCreateClass=( {classList, setClassList} ) => {
+    const initialClassFields={name: "", type: "", startTime: "", duration: "", level: "",location:"", registrants: ""}
     const [newClass, setNewClass]=useState( initialClassFields );
     const handleSubmit=event => {
         event.preventDefault();
-        ( !newClass.value )? alert( "Please fill in all fields" ):setClasses( [newClass, ...classes] );
+        ( !newClass.value )? alert( "Please fill in all fields" ):setClassList( [newClass, ...classList] );
         resetForm();
     }
 
