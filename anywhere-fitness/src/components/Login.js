@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 import React, { useState } from 'react';
+=======
+import React,{useCallback,useContext} from 'react';
+import {withRouter,Redirect} from "react-router"
+import {AuthContext} from '../utils/Auth';
+>>>>>>> a0b2a4bfa2e44b1123214e373d2ae2331dbd18d6
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -11,8 +17,14 @@ import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
+<<<<<<< HEAD
 import { makeStyles } from '@material-ui/core/styles';
 import Axios from 'axios';
+=======
+import {makeStyles} from '@material-ui/core/styles';
+import {NavLink} from "react-router-dom"
+import app from './../base';
+>>>>>>> a0b2a4bfa2e44b1123214e373d2ae2331dbd18d6
 
 function Copyright() {
   return (
@@ -27,7 +39,7 @@ function Copyright() {
   );
 }
 
-const useStyles = makeStyles(theme => ({
+const applyStyles=makeStyles( theme => ( {
   root: {
     height: '100vh'
   },
@@ -39,30 +51,53 @@ const useStyles = makeStyles(theme => ({
     backgroundPosition: 'center'
   },
   paper: {
-    margin: theme.spacing(8, 4),
+    margin: theme.spacing( 8, 4 ),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center'
   },
   avatar: {
-    margin: theme.spacing(1),
+    margin: theme.spacing( 1 ),
     backgroundColor: theme.palette.secondary.main
   },
   form: {
     width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1)
+    marginTop: theme.spacing( 1 )
   },
   submit: {
-    margin: theme.spacing(3, 0, 2)
+    margin: theme.spacing( 3, 0, 2 )
   }
-}));
+} ) );
 
+<<<<<<< HEAD
 export default function Login(props) {
   const [loginData, setLoginData] = useState({
     username: '',
     password: ''
   });
   const classes = useStyles();
+=======
+const Login=( {history} ) => {
+  const handleLogin=useCallback(
+    async event => {
+      event.preventDefault();
+      const {email, password}=event.target.elements;
+      try {
+        await app.auth()
+          .signInWithEmailAndPassword( email.value, password.value );
+        history.push( "/" );
+      } catch( error ) {
+        console.error( error );
+
+      }
+    }, [history]
+  )
+  const {currentUser}=useContext( AuthContext );
+  if( currentUser ) {
+    return <Redirect to='/' />
+  }
+  const classes=applyStyles();
+>>>>>>> a0b2a4bfa2e44b1123214e373d2ae2331dbd18d6
 
   const changeHandler = e => {
     setLoginData({
@@ -100,16 +135,25 @@ export default function Login(props) {
           </Typography>
           <form onSubmit={submitHandler} className={classes.form} noValidate>
             <TextField
+              onSubmit={handleLogin}
               variant='outlined'
               margin='normal'
               required
               fullWidth
+<<<<<<< HEAD
               id='username'
               label='User Name'
               name='username'
               autoComplete='username'
               onChange={changeHandler}
               value={loginData.username}
+=======
+              label='Email Address'
+              type="email"
+              id='email'
+              name='email'
+              autoComplete='email'
+>>>>>>> a0b2a4bfa2e44b1123214e373d2ae2331dbd18d6
               autoFocus
             />
             <TextField
@@ -145,9 +189,11 @@ export default function Login(props) {
             <Grid container>
               <Grid item xs></Grid>
               <Grid item>
-                <Link href='#' variant='body2'>
-                  {"Don't have an account? Sign Up"}
-                </Link>
+                <NavLink to="/signup">
+                 
+                    "Don't have an account? Sign Up"
+                  
+                </NavLink>
               </Grid>
             </Grid>
             <Box mt={5}>
@@ -159,3 +205,4 @@ export default function Login(props) {
     </Grid>
   );
 }
+export default withRouter( Login )

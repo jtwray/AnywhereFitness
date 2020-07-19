@@ -1,14 +1,16 @@
-import React, {useEffect} from 'react'
+import React, {useState,useEffect} from 'react'
 import Axios from 'axios';
 import {FormCreateClass} from "./FormCreateClass"
-export const ClassList=( {classList, setClassList,instructor}, props ) => {
+import {Class} from "./Class"
+
+export const ClassList=( {classList, setClassList, instructor}, props ) => {
 
     const instructorID=instructor.id;
-    useEffect( () => {
+    useEffect( () => { 
         const getClasses=() => {
-            const apiurl=`mockdata`;
+            const apiurl=`https://lambda-anywhere-fitness.herokuapp.com/api/auth`;
             let responseData;
-            Axios.get( `${apiurl}${instructorID}` )
+            axiosWithAuth().get( `/${instructorID}` )
                 .then( ( response ) => {responseData=response.data} )
                 .then( () => {console.log( responseData )} )
                 .then( () => {setClassList( responseData )} )
@@ -17,11 +19,12 @@ export const ClassList=( {classList, setClassList,instructor}, props ) => {
         }
         return getClasses();
 
-    }, [instructorID] )
+    }, [instructorId] )
     return (
         <>
-            <FormCreateClass />
-            <ClassList />
+            <FormCreateClass classList={classList} setClassList={setClassList}/>
+            {classList&&classList.map( cls =><Class class={cls} />)}
+
         </>
     )
 }
